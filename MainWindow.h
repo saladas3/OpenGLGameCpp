@@ -12,6 +12,7 @@
 
 class MainWindow {
     GLFWwindow *window = nullptr; // (In the accompanying source code, this variable is global for simplicity)
+    int viewportWidth = 0, viewportHeight = 0;
     const char *windowName = "Test Window";
 public:
     MainWindow();

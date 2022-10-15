@@ -4,6 +4,21 @@
 
 #include "MainWindow.h"
 
+// (NOTE) Always declare vertices (coordinates) counterclockwise, so we don't draw back-facing shapes
+float testVertices[] = {
+        -.5f, -.5f, .0f, // bottom left of triangle (point)
+        .5f, -.5f, .0f, // bottom right of triangle
+        .0f, .5f, .0f // top of triangle
+};
+
+// (NOTE) Steps for the shaders:
+//  1. Read shader files
+//  2. Store and compile shaders
+//  3. Store and link the shaders
+//  4. Use the program created from the shaders
+
+// TODO: 1:19:00 of tutorial https://www.youtube.com/watch?v=Nzp77cOMmfg
+
 MainWindow::MainWindow() {
     glewExperimental = GL_TRUE; // Needed in core profile
     if (!glfwInit()) {
@@ -48,6 +63,9 @@ void MainWindow::broadcast() {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         // Swap buffers
         glfwSwapBuffers(window);
+        // Init viewport (the area we are going to draw in, I think)
+        glfwGetFramebufferSize(window, &viewportWidth, &viewportHeight);
+        glViewport(0, 0, viewportWidth, viewportHeight);
 
         // TODO: game :)
     }
