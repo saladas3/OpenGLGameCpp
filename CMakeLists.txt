@@ -5,13 +5,20 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_subdirectory(glfw)
 add_subdirectory(glew)
+add_subdirectory(glm)
 
-add_executable(${CMAKE_PROJECT_NAME} main.cpp MainWindow.cpp MainWindow.h)
+add_executable(${CMAKE_PROJECT_NAME}
+        main.cpp
+        MainWindow.cpp
+        MainWindow.h
+        )
 
 target_include_directories(${CMAKE_PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/glfw/include)
 target_include_directories(${CMAKE_PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/glew/include)
+target_include_directories(${CMAKE_PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/glm/glm)
 
 target_link_libraries(${CMAKE_PROJECT_NAME}
         glfw
         libglew_static
-)
+        glm
+        )

@@ -30,13 +30,13 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 9,
+				"line" : 10,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 14,
+				"line" : 20,
 				"parent" : 0
 			},
 			{
@@ -51,13 +51,19 @@
 			{
 				"command" : 2,
 				"file" : 0,
-				"line" : 11,
+				"line" : 16,
 				"parent" : 0
 			},
 			{
 				"command" : 2,
 				"file" : 0,
-				"line" : 12,
+				"line" : 17,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 18,
 				"parent" : 0
 			}
 		]
@@ -106,6 +112,14 @@
 				{
 					"backtrace" : 6,
 					"path" : "C:/Users/lucai/CLionProjects/OpenGLGameCpp/glew/include"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "C:/Users/lucai/CLionProjects/OpenGLGameCpp/glm/glm"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "C:/Users/lucai/CLionProjects/OpenGLGameCpp/glm"
 				}
 			],
 			"language" : "CXX",
@@ -128,11 +142,11 @@
 	[
 		{
 			"backtrace" : 2,
-			"id" : "glfw::@12507ebf64a5258d241e"
+			"id" : "libglew_static::@53e89909b58b5208c234"
 		},
 		{
 			"backtrace" : 2,
-			"id" : "libglew_static::@53e89909b58b5208c234"
+			"id" : "glfw::@12507ebf64a5258d241e"
 		}
 	],
 	"id" : "OpenGLGameCpp::@6890427a1f51a3e7e1df",

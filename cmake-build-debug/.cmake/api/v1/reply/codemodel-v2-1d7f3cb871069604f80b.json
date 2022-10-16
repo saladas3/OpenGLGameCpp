@@ -9,7 +9,8 @@
 					"childIndexes" : 
 					[
 						1,
-						3
+						3,
+						4
 					],
 					"hasInstallRule" : true,
 					"jsonFile" : "directory-.-Debug-d0094a50bb2071803777.json",
@@ -77,6 +78,32 @@
 						2,
 						3
 					]
+				},
+				{
+					"build" : "glm",
+					"childIndexes" : 
+					[
+						5
+					],
+					"jsonFile" : "directory-glm-Debug-ab70d989331aa8f80f5f.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.2"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 3,
+					"source" : "glm"
+				},
+				{
+					"build" : "glm/glm",
+					"jsonFile" : "directory-glm.glm-Debug-40ab1eadfbf0266e4336.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.2"
+					},
+					"parentIndex" : 4,
+					"projectIndex" : 3,
+					"source" : "glm/glm"
 				}
 			],
 			"name" : "Debug",
@@ -86,7 +113,8 @@
 					"childIndexes" : 
 					[
 						1,
-						2
+						2,
+						3
 					],
 					"directoryIndexes" : 
 					[
@@ -125,6 +153,15 @@
 						2,
 						3
 					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						4,
+						5
+					],
+					"name" : "glm",
+					"parentIndex" : 0
 				}
 			],
 			"targets" : 
@@ -132,7 +169,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "OpenGLGameCpp::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-OpenGLGameCpp-Debug-c4f806761b2641ec0cfa.json",
+					"jsonFile" : "target-OpenGLGameCpp-Debug-14178f0025828abe688c.json",
 					"name" : "OpenGLGameCpp",
 					"projectIndex" : 0
 				},

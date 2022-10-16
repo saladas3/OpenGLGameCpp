@@ -5,12 +5,12 @@
 3883	4025	6875350956931664	glew/lib/libglewd.a	c0fba74d30220b17
 23	361	6875350920279558	glfw/src/CMakeFiles/glfw.dir/context.c.obj	eed10696d0874e7d
 739	1052	6875350927208885	glfw/src/CMakeFiles/glfw.dir/osmesa_context.c.obj	a104a78abfb81e35
-585	954	6875639030346888	OpenGLGameCpp.exe	8ee7ea190f95e504
+632	1001	6875639344081511	OpenGLGameCpp.exe	8ee7ea190f95e504
 1644	2126	6875350937947802	glfw/src/CMakeFiles/glfw.dir/win32_window.c.obj	8f5bd9956d1ecc92
 9	345	6875350920122471	glfw/src/CMakeFiles/glfw.dir/init.c.obj	799258b819a9b033
 347	739	6875350924065985	glfw/src/CMakeFiles/glfw.dir/window.c.obj	548347d57e46cfd4
 472	765	6875350924329684	glfw/src/CMakeFiles/glfw.dir/platform.c.obj	270a5e1e02b53ad8
-3	584	6875639026819826	CMakeFiles/OpenGLGameCpp.dir/MainWindow.cpp.obj	a022693a8ad245a9
+4	632	6875639340527459	CMakeFiles/OpenGLGameCpp.dir/MainWindow.cpp.obj	a022693a8ad245a9
 596	902	6875350925702038	glfw/src/CMakeFiles/glfw.dir/vulkan.c.obj	b42ad674f3ad9534
 694	986	6875350926543982	glfw/src/CMakeFiles/glfw.dir/null_init.c.obj	643ad61bc08bac71
 765	1105	6875350927715025	glfw/src/CMakeFiles/glfw.dir/egl_context.c.obj	9069c9b86883cd8e
@@ -26,5 +26,8 @@
 1497	1843	6875350935099276	glfw/src/CMakeFiles/glfw.dir/win32_monitor.c.obj	8b7903dfc504b3f5
 2126	2317	6875350939842467	glfw/src/libglfw3.a	c145ed1789aacfdf
 1820	3883	6875350955491088	glew/CMakeFiles/libglew_static.dir/src/glew.c.obj	b29e422b0635d9dd
-4	632	6875639340527459	CMakeFiles/OpenGLGameCpp.dir/MainWindow.cpp.obj	a022693a8ad245a9
-632	1001	6875639344081511	OpenGLGameCpp.exe	8ee7ea190f95e504
+3	570	6876373443977614	CMakeFiles/OpenGLGameCpp.dir/main.cpp.obj	e6394b280d51f5bd
+11	649	6876373444778091	CMakeFiles/OpenGLGameCpp.dir/MainWindow.cpp.obj	e7af89aba2dee418
+650	1093	6876373449066979	OpenGLGameCpp.exe	8ee7ea190f95e504
+3	610	6876374546111364	CMakeFiles/OpenGLGameCpp.dir/MainWindow.cpp.obj	e7af89aba2dee418
+612	974	6876374549598303	OpenGLGameCpp.exe	8ee7ea190f95e504
