@@ -2,60 +2,7 @@
 // Created by lucai on 10/15/2022.
 //
 
-#include <fstream>
-#include <sstream>
 #include "MainWindow.h"
-
-std::string readFile(const std::string &fileLoc) {
-    std::ifstream file;
-    std::stringstream contents;
-
-    file.open(fileLoc, std::ios::in);
-
-    if (!file.fail()) {
-        contents << file.rdbuf();
-    }
-
-    return contents.str();
-}
-
-GLuint createAndCompileShader(const std::string &fileLoc, GLuint shaderType) {
-    const std::string shaderSource = readFile(fileLoc);
-    const char *cShader = shaderSource.c_str();
-
-    GLuint shader = glCreateShader(shaderType);
-    glShaderSource(shader, 1, &cShader, nullptr);
-    glCompileShader(shader);
-
-    int success;
-    glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
-    if (!success) {
-        char ifLog[512];
-        glGetShaderInfoLog(shader, 512, nullptr, ifLog);
-        std::cerr << "Shader error: " << ifLog << std::endl;
-    }
-
-    return shader;
-}
-
-GLuint createAndLinkProgram() {
-    GLuint vertexShader = createAndCompileShader("../Shaders/shader.vert", GL_VERTEX_SHADER);
-    GLuint fragmentShader = createAndCompileShader("../Shaders/shader.frag", GL_FRAGMENT_SHADER);
-    GLuint program = glCreateProgram();
-    glAttachShader(program, vertexShader);
-    glAttachShader(program, fragmentShader);
-    glLinkProgram(program);
-
-    int success;
-    glGetProgramiv(program, GL_LINK_STATUS, &success);
-    if (!success) {
-        char ifLog[512];
-        glGetProgramInfoLog(program, 512, nullptr, ifLog);
-        std::cerr << "GL program link error: " << ifLog << std::endl;
-    }
-
-    return program;
-}
 
 // (NOTE) Always declare vertices (coordinates) counterclockwise, so we don't draw back-facing shapes
 const float testVertices[] = {
@@ -71,7 +18,6 @@ const float testVertices[] = {
 //  4. Use the program created from the shaders
 
 MainWindow::MainWindow() {
-    glewExperimental = GL_TRUE; // Needed in core profile
     if (!glfwInit()) {
         fprintf(stderr, "Failed to initialize GLFW\n");
     }
@@ -87,15 +33,13 @@ MainWindow::MainWindow() {
     if (window == nullptr) {
         fprintf(stderr, "Failed to open GLFW window.\n");
         glfwTerminate();
+        return;
     }
 
     // We are going to draw on this window -> may need to add in render cycle
     glfwMakeContextCurrent(window); // Initialize GLEW
+    // Callback to a key handler for the window
     glfwSetKeyCallback(window, handleKeyInput);
-
-    if (glewInit() != GLEW_OK) {
-        fprintf(stderr, "Failed to initialize GLEW\n");
-    }
 }
 
 MainWindow::~MainWindow() {
@@ -104,47 +48,27 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::broadcast() {
-    GLuint shaderProgram = createAndLinkProgram();
-    GLuint VBO, VAO;
+    // Load GLAD to configure OpenGL
+    gladLoadGL();
 
-    glGenVertexArrays(1, &VAO);
-    glGenBuffers(1, &VBO);
-    glBindVertexArray(VAO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(testVertices), testVertices, GL_STATIC_DRAW);
-
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *) nullptr);
-    glEnableVertexAttribArray(0);
-
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindVertexArray(0);
+    // Init viewport (the area we are going to draw in, I think)
+    glfwGetFramebufferSize(window, &viewportWidth, &viewportHeight);
+    glViewport(0, 0, viewportWidth, viewportHeight);
 
     // Solid color background
-    glClearColor(.3f, .3f, .4f, 1.0f);
+    glClearColor(.07f, .13f, .17f, 1.0f);
 
     while (!glfwWindowShouldClose(window)) {
-        // Ask for events (mouse & keyboard inputs)
+        // Ask for events (GLFW events) (mouse & keyboard inputs)
         glfwPollEvents();
 
         // Clear the screen. It can cause flickering, so it's there nonetheless.
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT);
 
-        // Init viewport (the area we are going to draw in, I think)
-        glfwGetFramebufferSize(window, &viewportWidth, &viewportHeight);
-        glViewport(0, 0, viewportWidth, viewportHeight);
-
-        // Apply shaders to the scene (draw)
-        glUseProgram(shaderProgram);
-        glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES, 0, 3);
-
-        // Swap buffers
+        // Swap buffers the back buffer with the front buffer
+        //  The front buffer holds the rendered frame while the next frame is loaded on the back buffer
         glfwSwapBuffers(window);
     }
-
-    glDeleteVertexArrays(1, &VAO);
-    glDeleteBuffers(1, &VBO);
-    glDeleteProgram(shaderProgram);
 }
 
 void MainWindow::handleKeyInput(GLFWwindow *_window, int key, int status, int action, int mods) {
@@ -155,6 +79,6 @@ void MainWindow::handleKeyInput(GLFWwindow *_window, int key, int status, int ac
         glClearColor(.5f, .2f, .1f, 1.0f);
     }
     if (key == GLFW_KEY_R && action == GLFW_RELEASE) {
-        glClearColor(.3f, .3f, .4f, 1.0f);
+        glClearColor(.07f, .13f, .17f, 1.0f);
     }
 }
