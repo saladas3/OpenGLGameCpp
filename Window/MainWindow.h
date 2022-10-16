@@ -10,9 +10,12 @@
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 #include "glm.hpp"
+#include "gtc/matrix_transform.hpp"
+#include "gtc/type_ptr.hpp"
 
 class MainWindow {
     GLFWwindow *window = nullptr; // (In the accompanying source code, this variable is global for simplicity)
+    int windowWidth = 1024, windowHeight = 768;
     int viewportWidth = 0, viewportHeight = 0;
     const char *windowName = "Test Window";
 public:
