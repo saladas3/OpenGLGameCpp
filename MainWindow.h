@@ -9,6 +9,7 @@
 #include <string>
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
+#include "glm.hpp"
 
 class MainWindow {
     GLFWwindow *window = nullptr; // (In the accompanying source code, this variable is global for simplicity)

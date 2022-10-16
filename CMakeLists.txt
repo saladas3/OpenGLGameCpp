@@ -7,8 +7,8 @@ add_subdirectory(glfw)
 add_subdirectory(glm)
 
 add_executable(${CMAKE_PROJECT_NAME}
-        main.cpp
         glad.c
+        main.cpp
         MainWindow.cpp
         MainWindow.h
         Shaders/InCodeShaders.h)
