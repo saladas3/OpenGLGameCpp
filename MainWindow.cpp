@@ -5,7 +5,6 @@
 #include <fstream>
 #include <sstream>
 #include "MainWindow.h"
-#include "vec3.hpp"
 
 std::string readFile(const std::string &fileLoc) {
     std::ifstream file;

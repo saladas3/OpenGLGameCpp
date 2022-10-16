@@ -19,7 +19,7 @@ public:
 
     void broadcast();
 
-    static void handleKeyInput(GLFWwindow *_window, int key, int status, int action, int mods);
+    static void handleKeyInput(GLFWwindow *_window, int key, [[maybe_unused]] int status, int action, int mods);
 
     ~MainWindow();
 };
