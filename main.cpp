@@ -1,4 +1,4 @@
-#include "MainWindow.h"
+#include "Window/MainWindow.h"
 
 int main() {
     MainWindow mw = MainWindow();

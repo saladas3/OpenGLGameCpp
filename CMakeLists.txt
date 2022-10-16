@@ -9,9 +9,11 @@ add_subdirectory(glm)
 add_executable(${CMAKE_PROJECT_NAME}
         glad.c
         main.cpp
-        MainWindow.cpp
-        MainWindow.h
-        Shaders/InCodeShaders.h)
+        Window/MainWindow.cpp Window/MainWindow.h
+        ShaderMgr/Shader.cpp ShaderMgr/Shader.h
+        RenderSystem/VAO.cpp RenderSystem/VAO.h
+        RenderSystem/VBO.cpp RenderSystem/VBO.h
+        RenderSystem/EBO.cpp RenderSystem/EBO.h)
 
 target_include_directories(${CMAKE_PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/glfw/include)
 target_include_directories(${CMAKE_PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/glm/glm)
