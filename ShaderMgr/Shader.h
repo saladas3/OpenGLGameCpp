@@ -11,6 +11,7 @@
 #include <sstream>
 #include <iostream>
 #include <cerrno>
+#include <cstring>
 
 std::string getFileContents(const char *fileName);
 
@@ -20,6 +21,9 @@ public:
     Shader(const char *vertexFile, const char *fragmentFile);
     void Activate() const;
     void Delete() const;
+private:
+    // Checks if the different Shaders have compiled properly
+    static void compileErrors(unsigned int shader, const char* type);
 };
 
 
