@@ -38,16 +38,10 @@ MainWindow::MainWindow() {
 
     // We are going to draw on this window -> may need to add in render cycle
     glfwMakeContextCurrent(window); // Initialize GLEW
+
     // Callback to a key handler for the window
     glfwSetKeyCallback(window, handleKeyInput);
-}
 
-MainWindow::~MainWindow() {
-    if (window) glfwDestroyWindow(window);
-    glfwTerminate();
-}
-
-void MainWindow::broadcast() {
     // Load GLAD to configure OpenGL
     gladLoadGL();
 
@@ -57,11 +51,19 @@ void MainWindow::broadcast() {
 
     // Solid color background
     glClearColor(.07f, .13f, .17f, 1.0f);
+}
 
+MainWindow::~MainWindow() {
+    if (window) glfwDestroyWindow(window);
+    glfwTerminate();
+}
+
+void MainWindow::broadcast() {
     while (!glfwWindowShouldClose(window)) {
         // Ask for events (GLFW events) (mouse & keyboard inputs)
         glfwPollEvents();
 
+        // (NOTE) glClear and glfwSwapBuffers should be in the while loop to render next scenes?
         // Clear the screen. It can cause flickering, so it's there nonetheless.
         glClear(GL_COLOR_BUFFER_BIT);
 
