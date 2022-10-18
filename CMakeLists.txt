@@ -16,7 +16,7 @@ add_executable(${CMAKE_PROJECT_NAME}
         RenderSystem/VBO.cpp RenderSystem/VBO.h
         RenderSystem/EBO.cpp RenderSystem/EBO.h
         TextureMgr/Texture.cpp TextureMgr/Texture.h
-        Camera/Camera.cpp Camera/Camera.h)
+        Camera/Camera.cpp Camera/Camera.h MeshMgr/Mesh.cpp MeshMgr/Mesh.h)
 
 target_include_directories(${CMAKE_PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/glfw/include)
 target_include_directories(${CMAKE_PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/glm/glm)

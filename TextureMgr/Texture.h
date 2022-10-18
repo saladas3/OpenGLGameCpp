@@ -13,9 +13,9 @@ class Texture {
 public:
     GLuint ID{};
     GLuint unit;
-    GLenum type;
+    const char *type;
 
-    Texture(const char *image, GLenum texType, GLuint slot, GLenum format, GLenum pixelType);
+    Texture(const char *image, const char * texType, GLuint slot, GLenum format, GLenum pixelType);
 
     // Assigns a texture unit to a texture
     static void texUnit(Shader &shader, const char *uniform, GLint unit);
@@ -24,7 +24,7 @@ public:
     void Bind() const;
 
     // Unbinds a texture
-    void Unbind() const;
+    static void Unbind() ;
 
     // Deletes a texture
     void Delete();

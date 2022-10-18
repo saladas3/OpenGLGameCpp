@@ -5,7 +5,16 @@
 #ifndef OPENGLGAMECPP_VBO_H
 #define OPENGLGAMECPP_VBO_H
 
+#include <vector>
 #include "glad/glad.h"
+#include "glm.hpp"
+
+struct Vertex {
+    glm::vec3 position;
+    glm::vec3 normal;
+    glm::vec3 color;
+    glm::vec2 texUV;
+};
 
 class VBO {
 public:
@@ -13,7 +22,7 @@ public:
     GLuint ID{};
 
     // Constructor that generates a Vertex Buffer Object and links it to vertices
-    VBO(GLfloat *vertices, GLsizeiptr size);
+    explicit VBO(std::vector<Vertex> &vertices);
 
     // Binds the VBO
     void Bind() const;
