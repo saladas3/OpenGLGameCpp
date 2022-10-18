@@ -12,36 +12,16 @@
 // (NOTE) Always declare vertices (coordinates) counterclockwise, so we don't draw back-facing shapes
 GLfloat vertices[] = {
         //     COORDINATES     /        COLORS          /    TexCoord   /        NORMALS       //
-        -0.5f, 0.0f, 0.5f, 0.83f, 0.70f, 0.44f, 0.0f, 0.0f, 0.0f, -1.0f, 0.0f, // Bottom side
-        -0.5f, 0.0f, -0.5f, 0.83f, 0.70f, 0.44f, 0.0f, 5.0f, 0.0f, -1.0f, 0.0f, // Bottom side
-        0.5f, 0.0f, -0.5f, 0.83f, 0.70f, 0.44f, 5.0f, 5.0f, 0.0f, -1.0f, 0.0f, // Bottom side
-        0.5f, 0.0f, 0.5f, 0.83f, 0.70f, 0.44f, 5.0f, 0.0f, 0.0f, -1.0f, 0.0f, // Bottom side
-
-        -0.5f, 0.0f, 0.5f, 0.83f, 0.70f, 0.44f, 0.0f, 0.0f, -0.8f, 0.5f, 0.0f, // Left Side
-        -0.5f, 0.0f, -0.5f, 0.83f, 0.70f, 0.44f, 5.0f, 0.0f, -0.8f, 0.5f, 0.0f, // Left Side
-        0.0f, 0.8f, 0.0f, 0.92f, 0.86f, 0.76f, 2.5f, 5.0f, -0.8f, 0.5f, 0.0f, // Left Side
-
-        -0.5f, 0.0f, -0.5f, 0.83f, 0.70f, 0.44f, 5.0f, 0.0f, 0.0f, 0.5f, -0.8f, // Non-facing side
-        0.5f, 0.0f, -0.5f, 0.83f, 0.70f, 0.44f, 0.0f, 0.0f, 0.0f, 0.5f, -0.8f, // Non-facing side
-        0.0f, 0.8f, 0.0f, 0.92f, 0.86f, 0.76f, 2.5f, 5.0f, 0.0f, 0.5f, -0.8f, // Non-facing side
-
-        0.5f, 0.0f, -0.5f, 0.83f, 0.70f, 0.44f, 0.0f, 0.0f, 0.8f, 0.5f, 0.0f, // Right side
-        0.5f, 0.0f, 0.5f, 0.83f, 0.70f, 0.44f, 5.0f, 0.0f, 0.8f, 0.5f, 0.0f, // Right side
-        0.0f, 0.8f, 0.0f, 0.92f, 0.86f, 0.76f, 2.5f, 5.0f, 0.8f, 0.5f, 0.0f, // Right side
-
-        0.5f, 0.0f, 0.5f, 0.83f, 0.70f, 0.44f, 5.0f, 0.0f, 0.0f, 0.5f, 0.8f, // Facing side
-        -0.5f, 0.0f, 0.5f, 0.83f, 0.70f, 0.44f, 0.0f, 0.0f, 0.0f, 0.5f, 0.8f, // Facing side
-        0.0f, 0.8f, 0.0f, 0.92f, 0.86f, 0.76f, 2.5f, 5.0f, 0.0f, 0.5f, 0.8f  // Facing side
+        -1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+        -1.0f, 0.0f, -1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
+        1.0f, 0.0f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f,
+        1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f
 };
 
 // Indices for vertices order
 GLuint indices[] = {
-        0, 1, 2, // Bottom side
-        0, 2, 3, // Bottom side
-        4, 6, 5, // Left side
-        7, 9, 8, // Non-facing side
-        10, 12, 11, // Right side
-        13, 15, 14 // Facing side
+        0, 1, 2,
+        0, 2, 3
 };
 
 GLfloat lightVertices[] = { //     COORDINATES     //
@@ -166,9 +146,10 @@ void MainWindow::broadcast() {
     glUniform3f(glGetUniformLocation(shaderProgram.ID, "lightPos"), lightPos.x, lightPos.y, lightPos.z);
 
     // Texture
-    Texture brickTex("../Resources/Textures/brick.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
+    Texture planksTex("../Resources/Textures/planks.png", GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE);
     Texture::texUnit(shaderProgram, "tex0", 0);
-    brickTex.Unbind();
+    Texture planksSpec("../Resources/Textures/planksSpec.png", GL_TEXTURE_2D, 1, GL_RED, GL_UNSIGNED_BYTE);
+    Texture::texUnit(shaderProgram, "tex1", 1);
 
     // Enable the Depth Buffer -> to render pixels correctly to get the perspective of depth
     glEnable(GL_DEPTH_TEST);
@@ -195,7 +176,8 @@ void MainWindow::broadcast() {
         camera.Matrix(shaderProgram, "camMatrix");
 
         // Binds texture so that is appears in rendering
-        brickTex.Bind();
+        planksTex.Bind();
+        planksSpec.Bind();
         // Bind the VAO so OpenGL knows to use it
         VAO1.Bind();
         // Draw primitives, number of indices, datatype of indices, index of indices
@@ -221,7 +203,7 @@ void MainWindow::broadcast() {
     VAO1.Delete();
     VBO1.Delete();
     EBO1.Delete();
-    brickTex.Delete();
+    planksTex.Delete();
     shaderProgram.Delete();
     lightVAO.Delete();
     lightVBO.Delete();
