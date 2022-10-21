@@ -4,6 +4,7 @@
 
 #include "MainWindow.h"
 #include "../MeshMgr/Mesh.h"
+#include "../MeshMgr/Model.h"
 
 // (NOTE) Always declare vertices (coordinates) counterclockwise, so we don't draw back-facing shapes
 Vertex vertices[] = {
@@ -92,41 +93,13 @@ void MainWindow::broadcast() {
     // Generates Shader object using shaders default.vert and default.frag
     Shader shaderProgram("../Resources/Shaders/shader.vert", "../Resources/Shaders/shader.frag");
 
-    // Texture
-    Texture textures[]{
-            Texture("../Resources/Textures/planks.png", "diffuse", 0, GL_RGBA, GL_UNSIGNED_BYTE),
-            Texture("../Resources/Textures/planksSpec.png", "specular", 1, GL_RED, GL_UNSIGNED_BYTE)
-    };
-
-    // Store mesh data in vectors for the mesh
-    std::vector<Vertex> verts(vertices, vertices + sizeof(vertices) / sizeof(Vertex));
-    std::vector<GLuint> ind(indices, indices + sizeof(indices) / sizeof(GLuint));
-    std::vector<Texture> tex(textures, textures + sizeof(textures) / sizeof(Texture));
-    // Create floor mesh
-    Mesh floor(verts, ind, tex);
-
-    // Shader for light cube
-    Shader lightShader("../Resources/Shaders/light.vert", "../Resources/Shaders/light.frag");
-    // Store mesh data in vectors for the mesh
-    std::vector<Vertex> lightVerts(lightVertices, lightVertices + sizeof(lightVertices) / sizeof(Vertex));
-    std::vector<GLuint> lightInd(lightIndices, lightIndices + sizeof(lightIndices) / sizeof(GLuint));
-    // Crate light mesh
-    Mesh light(lightVerts, lightInd, tex);
-
+    // Take care of all the light related things
     glm::vec4 lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
     glm::vec3 lightPos = glm::vec3(0.5f, 0.5f, 0.5f);
     glm::mat4 lightModel = glm::mat4(1.0f);
     lightModel = glm::translate(lightModel, lightPos);
 
-    glm::vec3 objectPos = glm::vec3(0.0f, 0.0f, 0.0f);
-    glm::mat4 objectModel = glm::mat4(1.0f);
-    objectModel = glm::translate(objectModel, objectPos);
-
-    lightShader.Activate();
-    glUniformMatrix4fv(glGetUniformLocation(lightShader.ID, "model"), 1, GL_FALSE, glm::value_ptr(lightModel));
-    glUniform4f(glGetUniformLocation(lightShader.ID, "lightColor"), lightColor.x, lightColor.y, lightColor.z, lightColor.w);
     shaderProgram.Activate();
-    glUniformMatrix4fv(glGetUniformLocation(shaderProgram.ID, "model"), 1, GL_FALSE, glm::value_ptr(objectModel));
     glUniform4f(glGetUniformLocation(shaderProgram.ID, "lightColor"), lightColor.x, lightColor.y, lightColor.z, lightColor.w);
     glUniform3f(glGetUniformLocation(shaderProgram.ID, "lightPos"), lightPos.x, lightPos.y, lightPos.z);
 
@@ -136,6 +109,9 @@ void MainWindow::broadcast() {
     // Creates camera object
     Camera camera(windowWidth, windowHeight, glm::vec3(.0f, .0f, 2.0f));
 
+    // Load in a model
+    Model model("../Resources/Models/map/scene.gltf");
+
     while (!glfwWindowShouldClose(window)) {
         // Solid color background
         glClearColor(.07f, .13f, .17f, 1.0f);
@@ -143,11 +119,13 @@ void MainWindow::broadcast() {
         // Clear the screen. It can cause flickering, so it's there nonetheless.
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+        // Handles camera inputs
         camera.Inputs(window);
-        camera.updateMatrix(45.0f, .1f, 100.0f);
+        // Updates and exports the camera matrix to the Vertex Shader
+        camera.updateMatrix(45.0f, 0.1f, 100.0f);
 
-        floor.Draw(shaderProgram, camera);
-        light.Draw(lightShader, camera);
+        // Draw a model
+        model.Draw(shaderProgram, camera);
 
         // To draw triangles (chosen primitive), number of indices to draw, data type of indices, index of indices
         glDrawElements(GL_TRIANGLES, sizeof(lightIndices) / sizeof(int), GL_UNSIGNED_INT, nullptr);
@@ -160,7 +138,6 @@ void MainWindow::broadcast() {
 
     // Cleanup
     shaderProgram.Delete();
-    lightShader.Delete();
 }
 
 void MainWindow::handleKeyInput(GLFWwindow *_window, int key, int status, int action, int mods) {
