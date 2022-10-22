@@ -4,23 +4,9 @@
 
 #include "Model.h"
 
-std::string get_file_contents2(const char *filename) {
-    std::ifstream in(filename, std::ios::binary);
-    if (in) {
-        std::string contents;
-        in.seekg(0, std::ios::end);
-        contents.resize(in.tellg());
-        in.seekg(0, std::ios::beg);
-        in.read(&contents[0], (int) contents.size());
-        in.close();
-        return (contents);
-    }
-    throw std::runtime_error("Could not open file");
-}
-
 Model::Model(const char *file) {
     // Make a JSON object
-    std::string text = get_file_contents2(file);
+    std::string text = get_file_contents(file);
     JSON = json::parse(text);
 
     // Get the binary data
@@ -62,7 +48,7 @@ void Model::loadMesh(unsigned int indMesh) {
     meshes.emplace_back(vertices, indices, textures);
 }
 
-void Model::traverseNode(unsigned int nextNode, glm::mat4 matrix) { // NOLINT(misc-no-recursion)
+void Model::traverseNode(unsigned int nextNode, glm::mat4 matrix) { // NOLINT (misc-no-recursion)
     // Current node
     json node = JSON["nodes"][nextNode];
 
@@ -140,7 +126,7 @@ std::vector<unsigned char> Model::getData() {
     // Store raw text _data into bytesText
     std::string fileStr = std::string(file);
     std::string fileDirectory = fileStr.substr(0, fileStr.find_last_of('/') + 1);
-    bytesText = get_file_contents2((fileDirectory + uri).c_str());
+    bytesText = get_file_contents((fileDirectory + uri).c_str());
 
     // Transform the raw text _data into bytes and put them in a vector
     std::vector<unsigned char> _data(bytesText.begin(), bytesText.end());

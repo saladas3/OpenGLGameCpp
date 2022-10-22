@@ -27,5 +27,4 @@ target_include_directories(${CMAKE_PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_D
 
 target_link_libraries(${CMAKE_PROJECT_NAME}
         glfw
-        glm
-        )
+        glm)

@@ -13,7 +13,7 @@
 #include <cerrno>
 #include <cstring>
 
-std::string getFileContents(const char *fileName);
+std::string get_file_contents(const char *fileName);
 
 class Shader {
 public:

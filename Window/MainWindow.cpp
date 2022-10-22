@@ -110,6 +110,7 @@ void MainWindow::broadcast() {
     Camera camera(windowWidth, windowHeight, glm::vec3(.0f, .0f, 2.0f));
 
     // Load in a model
+//    Model model("../Resources/Models/boombox/boombox.gltf");
     Model model("../Resources/Models/map/scene.gltf");
 
     while (!glfwWindowShouldClose(window)) {
