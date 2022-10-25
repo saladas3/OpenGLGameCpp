@@ -93,11 +93,14 @@ void MainWindow::broadcast() {
     // Generates Shader object using shaders default.vert and default.frag
     Shader shaderProgram("../Resources/Shaders/shader.vert", "../Resources/Shaders/shader.frag");
 
+    // Shader used to outline 3D models
+    Shader outliningProgram("../Resources/Shaders/outlining.vert", "../Resources/Shaders/outlining.frag");
+
     // Take care of all the light related things
     glm::vec4 lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
     glm::vec3 lightPos = glm::vec3(0.5f, 0.5f, 0.5f);
     glm::mat4 lightModel = glm::mat4(1.0f);
-    lightModel = glm::translate(lightModel, lightPos);
+    //lightModel = glm::translate(lightModel, lightPos);
 
     shaderProgram.Activate();
     glUniform4f(glGetUniformLocation(shaderProgram.ID, "lightColor"), lightColor.x, lightColor.y, lightColor.z, lightColor.w);
@@ -105,7 +108,9 @@ void MainWindow::broadcast() {
 
     // Enable the Depth Buffer -> to render pixels correctly to get the perspective of depth
     glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LESS);
+    // glDepthFunc(GL_LESS); // something with depth - see docs
+    glEnable(GL_STENCIL_TEST);
+    glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
 
     // Creates camera object
     Camera camera(windowWidth, windowHeight, glm::vec3(.0f, .0f, 2.0f));
@@ -116,10 +121,10 @@ void MainWindow::broadcast() {
 
     while (!glfwWindowShouldClose(window)) {
         // Solid color background
-        glClearColor(.85f, .85f, .90f, 1.0f);
+        glClearColor(.5f, .1f, .20f, 1.0f);
         // (NOTE) glClear and glfwSwapBuffers should be in the while loop to render next scenes?
         // Clear the screen. It can cause flickering, so it's there nonetheless.
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
         // Handles camera inputs
         camera.Inputs(window);
@@ -127,7 +132,20 @@ void MainWindow::broadcast() {
         camera.updateMatrix(45.0f, 0.1f, 100.0f);
 
         // Draw a model
+        glStencilFunc(GL_ALWAYS, 1, 0xFF);
+        glStencilMask(0xFF);
         model.Draw(shaderProgram, camera);
+
+        glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
+        glStencilMask(0x00);
+        glDisable(GL_DEPTH_TEST);
+        outliningProgram.Activate();
+        glUniform1f(glGetUniformLocation(outliningProgram.ID, "outlining"), 0.08f);
+        model.Draw(outliningProgram, camera);
+
+        glStencilMask(0xFF);
+        glStencilFunc(GL_ALWAYS, 0, 0xFF);
+        glEnable(GL_DEPTH_TEST);
 
         // To draw triangles (chosen primitive), number of indices to draw, data type of indices, index of indices
         glDrawElements(GL_TRIANGLES, sizeof(lightIndices) / sizeof(int), GL_UNSIGNED_INT, nullptr);
