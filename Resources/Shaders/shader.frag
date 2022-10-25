@@ -101,11 +101,24 @@ vec4 spotLight()
     return (texture(diffuse0, texCoord) * (diffuse * inten + ambient) + texture(specular0, texCoord).r * specular * inten) * lightColor;
 }
 
+float near = .1f;
+float far = 100.0f;
+
+float linearizeDepth(float depth) {
+    return (2.0 * near * far) / (far + near - (depth * 2.0 - 1.0) * (far - near));
+}
+
+float logisticDepth(float depth, float steepness, float offset) {
+    float zVal = linearizeDepth(depth);
+    return (1 / (1 + exp(-steepness * (zVal - offset))));
+}
 
 void main()
 {
     // outputs final color
-    FragColor = spotLight(); // flashlight
-//    FragColor = direcLight(); // like the sun rays
+//    FragColor = spotLight(); // flashlight
+    FragColor = direcLight(); // like the sun rays
 //    FragColor = pointLight(); // like a lightbulb
+//    float depth = logisticDepth(gl_FragCoord.z, .5f, 5.0f);
+//    FragColor = direcLight() * (1.0f - depth) + vec4(depth * vec3(.85f, .85f, .90f), 1.0f);
 }

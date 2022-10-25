@@ -105,17 +105,18 @@ void MainWindow::broadcast() {
 
     // Enable the Depth Buffer -> to render pixels correctly to get the perspective of depth
     glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
 
     // Creates camera object
     Camera camera(windowWidth, windowHeight, glm::vec3(.0f, .0f, 2.0f));
 
     // Load in a model
-//    Model model("../Resources/Models/boombox/boombox.gltf");
+    // Model model("../Resources/Models/boombox/boombox.gltf");
     Model model("../Resources/Models/map/scene.gltf");
 
     while (!glfwWindowShouldClose(window)) {
         // Solid color background
-        glClearColor(.07f, .13f, .17f, 1.0f);
+        glClearColor(.85f, .85f, .90f, 1.0f);
         // (NOTE) glClear and glfwSwapBuffers should be in the while loop to render next scenes?
         // Clear the screen. It can cause flickering, so it's there nonetheless.
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
