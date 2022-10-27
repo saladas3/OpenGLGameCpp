@@ -94,7 +94,7 @@ void MainWindow::broadcast() {
     Shader shaderProgram("../Resources/Shaders/shader.vert", "../Resources/Shaders/shader.frag");
 
     // Shader used to outline 3D models
-    Shader outliningProgram("../Resources/Shaders/outlining.vert", "../Resources/Shaders/outlining.frag");
+    //Shader outliningProgram("../Resources/Shaders/outlining.vert", "../Resources/Shaders/outlining.frag");
 
     // Take care of all the light related things
     glm::vec4 lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
@@ -108,9 +108,9 @@ void MainWindow::broadcast() {
 
     // Enable the Depth Buffer -> to render pixels correctly to get the perspective of depth
     glEnable(GL_DEPTH_TEST);
-    // glDepthFunc(GL_LESS); // something with depth - see docs
-    glEnable(GL_STENCIL_TEST);
-    glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+    //glDepthFunc(GL_LESS); // something with depth - see docs
+    //glEnable(GL_STENCIL_TEST);
+    //glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
 
     // Creates camera object
     Camera camera(windowWidth, windowHeight, glm::vec3(.0f, .0f, 2.0f));
@@ -136,16 +136,16 @@ void MainWindow::broadcast() {
         glStencilMask(0xFF);
         model.Draw(shaderProgram, camera);
 
-        glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
-        glStencilMask(0x00);
-        glDisable(GL_DEPTH_TEST);
-        outliningProgram.Activate();
-        glUniform1f(glGetUniformLocation(outliningProgram.ID, "outlining"), 0.08f);
-        model.Draw(outliningProgram, camera);
+        //glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
+        //glStencilMask(0x00);
+        //glDisable(GL_DEPTH_TEST);
+        //outliningProgram.Activate();
+        //glUniform1f(glGetUniformLocation(outliningProgram.ID, "outlining"), 0.08f);
+        //model.Draw(outliningProgram, camera);
 
-        glStencilMask(0xFF);
-        glStencilFunc(GL_ALWAYS, 0, 0xFF);
-        glEnable(GL_DEPTH_TEST);
+        //glStencilMask(0xFF);
+        //glStencilFunc(GL_ALWAYS, 0, 0xFF);
+        //glEnable(GL_DEPTH_TEST);
 
         // To draw triangles (chosen primitive), number of indices to draw, data type of indices, index of indices
         glDrawElements(GL_TRIANGLES, sizeof(lightIndices) / sizeof(int), GL_UNSIGNED_INT, nullptr);
