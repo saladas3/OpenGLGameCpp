@@ -78,10 +78,6 @@ MainWindow::MainWindow() {
 
     // Load GLAD to configure OpenGL
     gladLoadGL();
-
-    // Init viewport (the area we are going to draw in, I think)
-    glfwGetFramebufferSize(window, &viewportWidth, &viewportHeight);
-    glViewport(0, 0, viewportWidth, viewportHeight);
 }
 
 MainWindow::~MainWindow() {
@@ -143,6 +139,10 @@ void MainWindow::broadcast() {
             prevTime = crnTime;
             counter = 0;
         }
+
+        // Init viewport (the area we are going to draw in)
+        glfwGetFramebufferSize(window, &viewportWidth, &viewportHeight);
+        glViewport(0, 0, viewportWidth, viewportHeight);
 
         // Solid color background
         glClearColor(.5f, .1f, .20f, 1.0f);
