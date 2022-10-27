@@ -112,6 +112,14 @@ void MainWindow::broadcast() {
     //glEnable(GL_STENCIL_TEST);
     //glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
 
+    // Enable FACE culling
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_FRONT);
+    glFrontFace(GL_CCW);
+
+    // Disable Vsync? recommended not to use this?
+    //glfwSwapInterval(0);
+
     // Creates camera object
     Camera camera(windowWidth, windowHeight, glm::vec3(.0f, .0f, 2.0f));
 
@@ -119,7 +127,23 @@ void MainWindow::broadcast() {
     // Model model("../Resources/Models/boombox/boombox.gltf");
     Model model("../Resources/Models/map/scene.gltf");
 
+    double prevTime = .0f, crnTime, timeDiff;
+    unsigned int counter = 0;
+
+    // A frame is one loop in the main while loop
     while (!glfwWindowShouldClose(window)) {
+        crnTime = glfwGetTime();
+        timeDiff = crnTime - prevTime;
+        counter++;
+        if (timeDiff >= 1.0f / 30.0f) {
+            std::string FPS = std::to_string((1.0f / timeDiff) * counter);
+            std::string ms = std::to_string((timeDiff / counter) * 1000);
+            std::string newTitle = "FPS test - " + FPS + " FPS / " + ms + " ms"; // NOLINT(performance-inefficient-string-concatenation)
+            glfwSetWindowTitle(window, newTitle.c_str());
+            prevTime = crnTime;
+            counter = 0;
+        }
+
         // Solid color background
         glClearColor(.5f, .1f, .20f, 1.0f);
         // (NOTE) glClear and glfwSwapBuffers should be in the while loop to render next scenes?
@@ -127,7 +151,7 @@ void MainWindow::broadcast() {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
         // Handles camera inputs
-        camera.Inputs(window);
+        camera.Inputs(window); // this is moved in the if statement for FPS so that responsiveness of inputs don't vary with the FPS
         // Updates and exports the camera matrix to the Vertex Shader
         camera.updateMatrix(45.0f, 0.1f, 100.0f);
 
